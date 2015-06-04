@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +19,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleLightContent();
     }
   });
+  
+  //双击退出
+  $ionicPlatform.registerBackButtonAction(function (e) {
+	//判断处于哪个页面时双击退出
+	if($location.path() == '/tab/dash') {
+		if ($rootScope.backButtonPressedOnceToExit) {
+			ionic.Platform.exitApp();
+		} else {
+			$rootScope.backButtonPressedOnceToExit = true;
+			window.plugins.toast.show('再按一次退出系统', 'long', 'center', function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)});
+			setTimeout(function () {
+				$rootScope.backButtonPressedOnceToExit = false;
+			}, 2000);
+		}
+	}else if ($ionicHistory.backView()) {
+		$ionicHistory.goBack();
+	}else {
+		$rootScope.backButtonPressedOnceToExit = true;
+		window.plugins.toast.show('再按一次退出系统', 'long', 'center', function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)});
+		setTimeout(function () {
+			$rootScope.backButtonPressedOnceToExit = false;
+		}, 2000);
+	}
+	e.preventDefault();
+	
+	return false;
+  }, 101);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

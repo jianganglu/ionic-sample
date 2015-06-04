@@ -29,5 +29,4 @@
   <feature name="Toast">
     <param name="wp-package" value="Toast"/>
   </feature>
-  
 </widget>
