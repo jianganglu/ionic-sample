@@ -2,10 +2,13 @@
 
 ## 安装插件
 
-$ cordova plugin add com.ionic.keyboard
-$ cordova nl.x-services.plugins.toast
-$ cordova org.apache.cordova.console
-$ cordova org.apache.cordova.device
+  $ cordova plugin add com.ionic.keyboard
+  
+  $ cordova nl.x-services.plugins.toast
+  
+  $ cordova org.apache.cordova.console
+  
+  $ cordova org.apache.cordova.device
 
 ## 实现双击返回键退出
 
