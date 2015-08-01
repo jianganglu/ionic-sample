@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
@@ -43,6 +44,7 @@ gulp.task('minifyjs', function() {
 //sass
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
+	.pipe(sourcemaps.init())
     .pipe(sass({
       errLogToConsole: true
     }))
@@ -51,6 +53,7 @@ gulp.task('sass', function(done) {
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.min.css' }))
+	.pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
@@ -61,8 +64,6 @@ gulp.task('templatecache', function (done) {
         .pipe(templateCache({
             standalone:true,
             base: function(file) {
-              // var filename = /[^/]*$/.exec( file.relative )[0];
-              // return 'templates/' + filename;
               return 'templates/'+ file.relative;
         }}))
         .pipe(gulp.dest('./www/js/dist'))
